@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIM</title>
+    <style>
+        body {
+          /*   background:linear-gradient(90deg, rgb(101, 209, 13) 0%, rgba(182,120,49,1) 28%, rgba(106,68,159,1) 56%, rgb(197, 218, 12) 78%, rgba(0,212,255,1) 100%); */
+            text-align: center;
+            font-size: xx-large;
+        }
+
+        button {
+
+            background-color: rgb(220, 224, 15);
+            border-radius: 12px;
+            font-size: larger 55px;
+            height: 9vh;
+            width: 9vw;
+        }
+
+        label {
+
+            color: rgb(3, 9, 116);
+        }
+
+        
+    </style>
+</head>
+<!-- coded by Amiram A. Asif K.  with support from Natlie S. and Roman L -->
+<body>
+    
+       <p> choose maximum sum and then click on the button <mark>start game</mark></p>
+      <p> the first player to reach the maximum Number is the winner</p>
+    <p>you will start first</p>
+
+
+    <label for="ChooseMaximum">Please choose The maximum sum(1 - 100)</label>
+    <input type="number" id="ChooseMaximum" min="1" max="100">
+    <div id="maxOutput" class="Output"></div><br>
+    <button style="font-size: 20px;" id="start_game">start game</button><br><br>
+    <label for="player-input" min="1" max="9">add number from 1-9 </label>
+    <input type="number" id="player_input" min="1" max="9" >
+    <div id="RangeOutput" class="Output"></div><br>
+    <button id="enterChoice" type="number" style="font-size: 20px;"> submit range 1-9</button>
+   
+
+    
+
+
+    <div id="gameSteps" class="output"></div>
+
+    <h3>difficulty range</h3>
+    <div class="difficulty">
+        0&nbsp;&nbsp;<input type="range" id="difficulty" min="0" max="1" value="0" step="1">&nbsp;&nbsp;1
+
+
+        <script>
+
+const chooseMaximum = document.getElementById('ChooseMaximum'); // user decide limit
+            const start = document.getElementById('start_game'); // the button to start the game
+
+            const playerInput = document.getElementById('player_input'); //user input 1-9
+            const play = document.getElementById('enterChoice'); // the button to enter 1-9
+
+            const gameSteps = document.getElementById('gameSteps'); // div output "game steps"
+            let sum;
+            let max;
+
+            start.addEventListener('click', initial);  // the button start the game
+            console.log('this is start ' + ' sum is now' + sum);
+
+
+            function initial() {   // function to initialize the game
+                playerInput.value = 0;
+                sum = 0;
+                max = +chooseMaximum.value
+                gameSteps.innerText = `the first player to reach ${max} is the winner`;
+                play.addEventListener('click', turn);   //user input 1-9
+            }
+
+
+
+            function turn() {  //user's turn to play
+
+                if (sum < max) {
+                    console.log('hi ' + ' sum is now' + sum);
+                  /*   max = +chooseMaximum.value */
+                    if (sum + +playerInput.value > max) {
+                        gameSteps.innerText = `please enter number smaller then ${max-sum+1}`;
+                    }  else {
+                      
+                      
+                        sum += +playerInput.value
+                        gameSteps.innerText = `sum is ${sum}`;
+                        console.log('ok ' + ' sum is now' + sum);
+                        if (sum < max) {
+                                compturn()     // go to the computer's turn
+                        }else  {
+                                console.log(`userwins`);
+                                humenwinner()  // game is finished. go to the winning function
+                        }
+                    }
+                }
+                    
+            }
+
+            function compturn() {   //computer's turn to play
+                    setTimeout(()=>{
+                        random()
+                        if (sum === max) {
+                            console.log(`compwins`);
+                            setTimeout(compwinner, 4000);  // game is finished. wait 4 secondes and go to the winning function
+        
+                        }
+                    }, 4000);  // wait 4 secondes and go to choose random number//
+            }
+
+
+                const random = () => {  //computer choose random number
+                    let rand;
+                    console.log('r1' + 'sum is now' + sum);
+                    if (max - sum < 9) {
+                        rand = Math.floor(Math.random() * (max - sum) + 1);
+                        console.log('r2')
+                    
+                    }  else { rand = Math.floor(Math.random() * 9) + 1; console.log('r3') }
+
+                    sum += +rand   // add computer's choise to sum
+                    gameSteps.innerText = `computer chose ${rand}. now sum is ${sum}`; 
+                    console.log('r4' + 'sum is now' + sum)
+
+                  /*   if (sum === max) {
+                        console.log(`compwins`);
+                        setTimeout(compwinner, 4000);  // game is finished. wait 4 secondes and go to the winning function
+    
+                    } */
+                }
+
+            function humenwinner() {                       // // game is finished. 
+                    console.log('1');
+                    gameSteps.innerText = 'you are the winner';
+                    console.log('8');
+                    play.removeEventListener('click', turn);
+                    start.removeEventListener('click', initial);
+                    
+                }
+
+            function compwinner() {                       // // game is finished. 
+                    console.log('12');
+                    gameSteps.innerText = 'the computer is the winner';
+                    console.log('11');
+                    play.removeEventListener('click', turn);
+                    start.removeEventListener('click', initial);
+                    
+                }
+                
+
+        </script>
+
+</body>
+
+</html>
